@@ -18,23 +18,37 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Expense Tracker'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.add),
+          )
+        ],
       ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                // color: Colors.blue,
-                width: double.infinity,
-                child: Card(
-                  color: Colors.blue,
-                  child: Text('Chart!'),
-                ),
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              // color: Colors.blue,
+              width: double.infinity,
+              child: Card(
+                color: Colors.blue,
+                child: Text('Chart!'),
               ),
-              UserTransaction(),
-            ],
-          ),
+            ),
+            UserTransaction(),
+          ],
+        ),
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+        ),
+        onPressed: () {},
       ),
     );
   }
