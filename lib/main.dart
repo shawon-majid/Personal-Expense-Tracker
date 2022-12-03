@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './widgets/chart.dart';
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './models/transaction.dart';
@@ -9,6 +10,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        // before it was:
+        // primarySwatch: Colors.purple,
+        // accentColor: Colors.amber,
+        // now it became the following
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              titleLarge: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.purple,
+          secondary: Colors.amber,
+        ),
+        // textTheme:
+      ),
       title: 'Expense Tracker',
       home: MyHomePage(),
     );
@@ -16,43 +43,53 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'Macbook',
-      amount: 820.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Ipad',
-      amount: 319.99,
-      date: DateTime.now(),
-    )
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Macbook',
+    //   amount: 820.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Ipad',
+    //   amount: 319.99,
+    //   date: DateTime.now(),
+    // )
   ];
 
-  void _addNewTransaction(String txTitle, double txAmount){
-    final newTx = Transaction(
-      id: '${DateTime.now()}$txTitle', 
-      title: txTitle, 
-      amount: txAmount, 
-      date: DateTime.now(),
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
       );
-    
+    }).toList();
+  }
+
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+      id: '${DateTime.now()}$txTitle',
+      title: txTitle,
+      amount: txAmount,
+      date: DateTime.now(),
+    );
+
     setState(() {
       _userTransactions.add(newTx);
     });
   }
 
-  void _startAddNewTransaction(BuildContext ctx){
-    showModalBottomSheet(context: ctx, 
-      builder: (_){
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
         return NewTransaction(_addNewTransaction);
       },
     );
@@ -62,7 +99,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expense Tracker'),
+        title: Text(
+          'Expense Tracker',
+          // style: TextStyle(
+          //   fontFamily: 'Open Sans',
+          // ),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -76,20 +118,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              // color: Colors.blue,
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('Chart!'),
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_userTransactions),
           ],
         ),
       ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
