@@ -9,33 +9,35 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        // before it was:
-        // primarySwatch: Colors.purple,
-        // accentColor: Colors.amber,
-        // now it became the following
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-              titleLarge: TextStyle(
-                fontFamily: 'OpenSans',
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+    var themeData = ThemeData(
+      // before it was:
+      // primarySwatch: Colors.purple,
+      // accentColor: Colors.amber,
+      // now it became the following
+      fontFamily: 'Quicksand',
+      textTheme: ThemeData.light().textTheme.copyWith(
+            titleLarge: TextStyle(
+              fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              // color: Colors.green,
             ),
-        appBarTheme: AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
           ),
+      appBarTheme: AppBarTheme(
+        titleTextStyle: TextStyle(
+          fontFamily: 'OpenSans',
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
         ),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.purple,
-          secondary: Colors.amber,
-        ),
-        // textTheme:
       ),
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        primary: Colors.purple,
+        secondary: Colors.amber,
+      ),
+    );
+    return MaterialApp(
+      theme: themeData,
+      // darkTheme: ThemeData(),
       title: 'Expense Tracker',
       home: MyHomePage(),
     );
