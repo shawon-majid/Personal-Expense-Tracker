@@ -34,6 +34,8 @@ class MyApp extends StatelessWidget {
         primary: Colors.purple,
         secondary: Colors.amber,
       ),
+
+      primarySwatch: Colors.purple,
     );
     return MaterialApp(
       theme: themeData,
